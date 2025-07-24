@@ -8,4 +8,5 @@ export const Colors = {
   iconColors: "#9D9D9D",
   text: "#1B4332",
   placeholder: "#000000ff",
+  brandText: "#D8F3DC",
 };
