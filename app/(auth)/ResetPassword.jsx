@@ -1,4 +1,14 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import { useRef, useState } from "react";
 import ForgotPasswordImg from "../../assets/img/Forgotpassw.png";
@@ -70,51 +80,66 @@ const ResetPassword = () => {
   };
 
   return (
-    <ThemedView>
-      <Image source={ForgotPasswordImg} style={styles.img} />
-      <ThemedText
-        fontSize={35}
-        weight="ExtraBold"
-        style={{ textAlign: "center" }}
-      >
-        Forgot Password
-      </ThemedText>
-      <ThemedText
-        fontSize={16}
-        weight="Regular"
-        style={{ textAlign: "center", marginTop: 5 }}
-      >
-        Enter the pin code sent to your mail
-      </ThemedText>
-
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          marginTop: 20,
-        }}
-      >
-        {pin.map((digit, index) => (
-          <Themedbox
-            key={index}
-            ref={(ref) => (inputRefs.current[index] = ref)}
-            value={digit}
-            onChangeText={(text) => handleChange(text, index)}
-            onKeyPress={(e) => handleKeyPress(e, index)}
-            // autoFocus={index === 0}
-          />
-        ))}
-      </View>
-      <ThemedButton onPress={handleResetPassword} style={{ marginTop: 30 }}>
-        <ThemedText
-          fontSize={16}
-          weight="SemiBold"
-          style={{ color: Colors.primary, textAlign: "center" }}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
         >
-          Reset Password
-        </ThemedText>
-      </ThemedButton>
-    </ThemedView>
+          <ThemedView>
+            <Image source={ForgotPasswordImg} style={styles.img} />
+            <ThemedText
+              fontSize={35}
+              weight="ExtraBold"
+              style={{ textAlign: "center" }}
+            >
+              Forgot Password
+            </ThemedText>
+            <ThemedText
+              fontSize={16}
+              weight="Regular"
+              style={{ textAlign: "center", marginTop: 5 }}
+            >
+              Enter the pin code sent to your mail
+            </ThemedText>
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                marginTop: 20,
+              }}
+            >
+              {pin.map((digit, index) => (
+                <Themedbox
+                  key={index}
+                  ref={(ref) => (inputRefs.current[index] = ref)}
+                  value={digit}
+                  onChangeText={(text) => handleChange(text, index)}
+                  onKeyPress={(e) => handleKeyPress(e, index)}
+                  // autoFocus={index === 0}
+                />
+              ))}
+            </View>
+            <ThemedButton
+              onPress={handleResetPassword}
+              style={{ marginTop: 30 }}
+            >
+              <ThemedText
+                fontSize={16}
+                weight="SemiBold"
+                style={{ color: Colors.primary, textAlign: "center" }}
+              >
+                Reset Password
+              </ThemedText>
+            </ThemedButton>
+          </ThemedView>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 

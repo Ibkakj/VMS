@@ -1,4 +1,15 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView,
+} from "react-native";
 import React, { useState } from "react";
 import ForgotPasswordImg from "../../assets/img/Forgotpassw.png";
 import { router } from "expo-router";
@@ -17,12 +28,12 @@ const ChangePassword = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleResetPassword = () => {
-    if (!newPassword || !confirmPassword) {
+    if (!newPassword.trim() || !confirmPassword.trim()) {
       console.log("Please fill in both fields");
       return;
     }
 
-    if (newPassword !== confirmPassword) {
+    if (newPassword.trim() !== confirmPassword.trim()) {
       console.log("Passwords do not match");
       return;
     }
@@ -32,62 +43,81 @@ const ChangePassword = () => {
   };
 
   return (
-    <ThemedView>
-      <Image source={ForgotPasswordImg} style={styles.img} />
-
-      <ThemedText weight={400} fontSize={14} style={{ marginTop: 10 }}>
-        New Password
-      </ThemedText>
-      <ThemedInputText
-        style={{ marginTop: 5 }}
-        placeholder="New Password"
-        placeholderTextColor="#8e8a8aff"
-        secureTextEntry={!showPassword}
-        value={newPassword}
-        onChangeText={setNewPassword}
-        rightIcon={
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            <FontAwesome5
-              name={showPassword ? "eye" : "eye-slash"}
-              size={20}
-              color={Colors.iconColors}
-            />
-          </TouchableOpacity>
-        }
-      />
-
-      <ThemedText weight={400} fontSize={14} style={{ marginTop: 15 }}>
-        Confirm Password
-      </ThemedText>
-
-      <ThemedInputText
-        style={{ marginTop: 5 }}
-        placeholder="Confirm Password"
-        placeholderTextColor="#8e8a8aff"
-        secureTextEntry={!showPassword}
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        rightIcon={
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            <FontAwesome5
-              name={showPassword ? "eye" : "eye-slash"}
-              size={20}
-              color={Colors.iconColors}
-            />
-          </TouchableOpacity>
-        }
-      />
-
-      <ThemedButton onPress={handleResetPassword} style={{ marginTop: 30 }}>
-        <ThemedText
-          fontSize={16}
-          weight="SemiBold"
-          style={{ color: Colors.primary, textAlign: "center" }}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
         >
-          Reset Password
-        </ThemedText>
-      </ThemedButton>
-    </ThemedView>
+          <ThemedView>
+            <Image source={ForgotPasswordImg} style={styles.img} />
+
+            <ThemedText weight={400} fontSize={14} style={{ marginTop: 10 }}>
+              New Password
+            </ThemedText>
+            <ThemedInputText
+              style={{ marginTop: 5 }}
+              placeholder="New Password"
+              placeholderTextColor="#8e8a8aff"
+              secureTextEntry={!showPassword}
+              value={newPassword}
+              onChangeText={setNewPassword}
+              rightIcon={
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
+                >
+                  <FontAwesome5
+                    name={showPassword ? "eye" : "eye-slash"}
+                    size={20}
+                    color={Colors.iconColors}
+                  />
+                </TouchableOpacity>
+              }
+            />
+
+            <ThemedText weight={400} fontSize={14} style={{ marginTop: 15 }}>
+              Confirm Password
+            </ThemedText>
+
+            <ThemedInputText
+              style={{ marginTop: 5 }}
+              placeholder="Confirm Password"
+              placeholderTextColor="#8e8a8aff"
+              secureTextEntry={!showPassword}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              rightIcon={
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
+                >
+                  <FontAwesome5
+                    name={showPassword ? "eye" : "eye-slash"}
+                    size={20}
+                    color={Colors.iconColors}
+                  />
+                </TouchableOpacity>
+              }
+            />
+
+            <ThemedButton
+              onPress={handleResetPassword}
+              style={{ marginTop: 30 }}
+            >
+              <ThemedText
+                fontSize={16}
+                weight="SemiBold"
+                style={{ color: Colors.primary, textAlign: "center" }}
+              >
+                Reset Password
+              </ThemedText>
+            </ThemedButton>
+          </ThemedView>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 

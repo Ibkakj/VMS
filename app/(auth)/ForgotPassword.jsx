@@ -1,4 +1,14 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView,
+} from "react-native";
 import { useEffect, useState } from "react";
 import ForgotPasswordImg from "../../assets/img/Forgotpassw.png";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -41,43 +51,59 @@ const ForgotPassword = () => {
   if (loading) return <Loader />;
 
   return (
-    <ThemedView>
-      <Image source={ForgotPasswordImg} style={styles.img} />
-      <ThemedText
-        fontSize={35}
-        weight="ExtraBold"
-        style={{ textAlign: "center" }}
-      >
-        Forgot Password
-      </ThemedText>
-      <ThemedText
-        fontSize={16}
-        weight="Medium"
-        style={{ textAlign: "center", marginTop: 5 }}
-      >
-        Enter the email address associated with your account and we'll send you
-        a link to reset your password.
-      </ThemedText>
-
-      <ThemedInputText
-        style={{ marginTop: 20 }}
-        placeholder="Enter email address"
-        placeholderTextColor="#8e8a8aff"
-        LeftIcon={
-          <FontAwesome5 name="envelope" size={20} color={Colors.iconColors} />
-        }
-      />
-
-      <ThemedButton onPress={handleSendSms} style={{ marginTop: 40 }}>
-        <ThemedText
-          fontSize={16}
-          weight="SemiBold"
-          style={{ color: Colors.primary, textAlign: "center" }}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
         >
-          Send SMS
-        </ThemedText>
-      </ThemedButton>
-    </ThemedView>
+          <ThemedView>
+            <Image source={ForgotPasswordImg} style={styles.img} />
+            <ThemedText
+              fontSize={35}
+              weight="ExtraBold"
+              style={{ textAlign: "center" }}
+            >
+              Forgot Password
+            </ThemedText>
+            <ThemedText
+              fontSize={16}
+              weight="Medium"
+              style={{ textAlign: "center", marginTop: 5 }}
+            >
+              Enter the email address associated with your account and we'll
+              send you a link to reset your password.
+            </ThemedText>
+
+            <ThemedInputText
+              style={{ marginTop: 20 }}
+              placeholder="Enter email address"
+              placeholderTextColor="#8e8a8aff"
+              LeftIcon={
+                <FontAwesome5
+                  name="envelope"
+                  size={20}
+                  color={Colors.iconColors}
+                />
+              }
+            />
+
+            <ThemedButton onPress={handleSendSms} style={{ marginTop: 40 }}>
+              <ThemedText
+                fontSize={16}
+                weight="SemiBold"
+                style={{ color: Colors.primary, textAlign: "center" }}
+              >
+                Send SMS
+              </ThemedText>
+            </ThemedButton>
+          </ThemedView>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 

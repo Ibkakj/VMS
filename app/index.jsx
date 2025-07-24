@@ -23,7 +23,7 @@ const Index = () => {
     return () => clearTimeout(timeout);
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* Top section with logo and brand */}
       <View style={styles.topContainer}>
         <Image source={logo} style={styles.img} />
@@ -50,7 +50,7 @@ const Index = () => {
           </ThemedText>
         </View>
       </ThemedView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -62,16 +62,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
   },
   topContainer: {
-    flex: 1,
+    flex: 7,
     backgroundColor: Colors.secondary,
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: -20,
+    marginBottom: 150,
   },
   bottom: {
-    paddingBottom: 50,
+    position: "absolute",
+    bottom: 20, // or 0 if you don't care about safe area
+    width: "100%",
     alignItems: "center",
   },
   img: {

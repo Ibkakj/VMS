@@ -11,7 +11,7 @@ const SuccessfulPassword = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       router.replace("/(auth)/Login"); // change this to your login page route
-    }, 3000); // 3 seconds delay
+    }, 8000); // 8 seconds delay
 
     return () => clearTimeout(timeout);
   }, []);
