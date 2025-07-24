@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ForgotPasswordImg from "../../assets/img/Forgotpassw.png";
 import { FontAwesome5 } from "@expo/vector-icons";
 
@@ -10,26 +10,34 @@ import { Link, router } from "expo-router";
 import ThemedView from "../../components/ThemedView";
 import ThemedText from "../../components/ThemedText";
 import ThemedButton from "../../components/ThemedButton";
+import Loader from "../../components/Loader";
 
 const ForgotPassword = () => {
-  const [setEmaset, setResetPassword] = useState("");
+  const [resetPassword, setResetPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSendSms = () => {
-    console.log("Email sent");
+    setLoading(true); // Show the loader
 
-    try {
-      // Navigate to the reset password screen
-      router.replace("/(auth)/ResetPassword"); // remove .jsx from route
-    } catch (error) {
-      console.error("Error navigating:", error);
-    } finally {
-      setLoading(false); // ✅ hide loader
-    }
-
-    // Optionally clear the field
-    // setResetPassword("");
+    setTimeout(() => {
+      console.log("Email sent");
+      router.replace("/(auth)/ResetPassword"); // Navigate after delay
+      setLoading(false); // Hide the loader (optional since you're navigating)
+    }, 2000); // 2 seconds delay
   };
+
+  // try {
+  //   console.log("Email sent");
+  //   // Navigate to the reset password screen
+  //   router.replace("/(auth)/ResetPassword"); // remove .jsx from route
+  // } catch (error) {
+  //   console.error("Error navigating:", error);
+  // } finally {
+  //   setLoading(false); // ✅ hide loader
+  // }
+
+  // Optionally clear the field
+  // setResetPassword("")
   if (loading) return <Loader />;
 
   return (
@@ -52,7 +60,7 @@ const ForgotPassword = () => {
       </ThemedText>
 
       <ThemedInputText
-        style={{ marginTop: 10 }}
+        style={{ marginTop: 20 }}
         placeholder="Enter email address"
         placeholderTextColor="#8e8a8aff"
         LeftIcon={
@@ -60,7 +68,7 @@ const ForgotPassword = () => {
         }
       />
 
-      <ThemedButton onPress={handleSendSms} style={{ marginTop: 30 }}>
+      <ThemedButton onPress={handleSendSms} style={{ marginTop: 40 }}>
         <ThemedText
           fontSize={16}
           weight="SemiBold"
@@ -77,11 +85,11 @@ export default ForgotPassword;
 
 const styles = StyleSheet.create({
   img: {
-    width: 400,
-    height: 320,
+    width: 300,
+    height: 290,
     resizeMode: "contain",
     marginTop: 30,
-    marginBottom: 20,
+    marginBottom: 30,
     alignSelf: "center",
   },
 });
